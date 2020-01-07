@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.example.menu.databinding.FragmentLoginBinding
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_register.*
 import kotlinx.android.synthetic.main.nav_header.*
 
 /**
@@ -36,17 +37,22 @@ class Login : Fragment() {
         }
 
         binding.loginbtn.setOnClickListener {
-            if (handler.userLogin(login_username.text.toString(), login_pass.text.toString())) {
-                Toast.makeText(activity, "Login Successful", Toast.LENGTH_SHORT).show()
-                var data = handler.retrieveData(login_username.text.toString())
-                view?.findNavController()?.navigate(R.id.action_login_to_menu)
-                afterUsername.text = ""
-                for (i in 0..(data.size - 1)) {
-                    afterUsername.append(data.get(i).username)
-                }
-            } else {
+
+            if (login_username.text.toString().isNotEmpty() && login_pass.text.toString().isNotEmpty()) {
+                if (handler.userLogin(login_username.text.toString(), login_pass.text.toString())) {
+                    Toast.makeText(activity, "Login Successful", Toast.LENGTH_SHORT).show()
+                    view?.findNavController()?.navigate(R.id.action_login_to_menu)
+                    //var data = handler.retrieveData(login_username.text.toString())
+
+                    //afterUsername.text = ""
+                    //for (i in 0..(data.size - 1)) {
+                    //afterUsername.append(data.get(i).username)
+                    //}
+                } else {
                 Toast.makeText(activity, "Username Or Password Incorrect, Please enter again~", Toast.LENGTH_SHORT).show()
-            }
+                }
+            }else
+               Toast.makeText(activity, "Username and Password cannot be empty", Toast.LENGTH_SHORT).show()
         }
         return binding.root
     }
